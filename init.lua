@@ -617,9 +617,10 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {}, -- BFN uncomment
         -- pyright = {},
         -- rust_analyzer = {},
+        omnisharp = {}, -- BFN add
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -899,7 +900,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'go', 'c_sharp' }, -- BFN add go, c_sharp
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -966,6 +967,27 @@ require('lazy').setup({
     },
   },
 })
+
+-- BFN put this in for better error displays
+vim.diagnostic.config({
+  virtual_text = true
+})
+ vim.o.updatetime = 250
+vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})]]
+
+-- BFN options
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+vim.o.smartindent = true
+vim.o.relativenumber = true
+vim.o.nu = true
+vim.o.scrolloff = 8
+-- vim.o.showmatch = true --don't know if I like this or not
+
+-- BFN Remap keys
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
